@@ -11,6 +11,11 @@ Config em: app.json
  expo init "nome do projeto"
  expo start
 
+ KeyboardAvoidingView = Evita do teclado ficar por cima dos componentes
+
+ secureTextEntry: Habilita o **** quando for colocar senha
+ <TextInput placeholder="Senha" secureTextEntry={true}/> 
+
 1- Cria um TSX/Componente
 		em src/views/Page.json: 
 		
@@ -218,12 +223,56 @@ Instalações:
 		<Text> Esse é o componente login idade é: {props.route.params.id}</Text>		
 		
 	
+#### MUDANÇAS ####
+1- Criar um index.js dentro de views para chamar de uma melhor forma no app.js
+		import Home from './src/views/Home';
+		import Login from './src/views/Login';
+		import Rastreio from './src/views/Rastreio';
+		//import AreaRestrita from './src/views/AreaRestrita';
+
+		export { Home, Login, Rastreio };
+
+2- Em App.js chama dessa forma
+		import { Home, Login, Rastreio } from './src/views';
+
+3- Estiliza o header da navigation stack
+		<Stack.Screen 
+          name="Home" 
+          component={Home} 
+          options={{
+            title: "Bem Vindo",
+            headerStyle: {backgroundColor: '#F58634'},
+            headerTintColor: '#333',
+            headerTitleStyle: {fontWeight: 'bold', alignSelf: 'center'}
+          }}
+          />
+4- importa imagem para o projeto
+		<Image source = {require('../../assets/img/login.png')} />
+
+5- Para tirar o title das rotas de navegações, 'headerShown: false' 	
+		<Stack.Screen 
+        name="Login" 
+        options={{headerShown: false}} 
+        component={Login} />
 
 
-
-
-
-
+#### FUNÇÃO COM CSS ####
+1- Tranforma o css desejado em uma função
+		loginMsg:(text='none') => ({
+		fontWeight: 'bold',
+		fontSize: 22,
+		color: 'red',
+		marginTop: 10,
+		marginBottom: 15,
+		display: text
+		}),
+2- Chama o css no component em forma de função 
+		<Text style={css.loginMsg()}>Usuário ou senha inválidos</Text>
+3- Cria um state para salvar o display
+		const [display, setDisplay] = useState('none');
+4- passa para o component o display
+		 <Text style={css.loginMsg(display)}>Usuário ou senha inválidos</Text>
+5- 
 
 
 
