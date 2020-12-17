@@ -274,8 +274,38 @@ Instalações:
 		 <Text style={css.loginMsg(display)}>Usuário ou senha inválidos</Text>
 5- 
 
+#### INTEGRAÇÃO COM BACKEND ####
 
+LOGIN:
+1- tempo que pegar atravez do hooks os dados digitados nos campos
+		dentro do metodo principal:
+			const [email, setEmail] = useState(null);
+			const [password, setPassword] = useState(null);
+			const [login, setLogin] = useState(null);
 
+2- nos campos input popular os states com os dados digitados
+			<TextInput style={css.loginInput} onChangeText={ text => setEmail(text)} placeholder="Usuário"/>
+            <TextInput style={css.loginInput} onChangeText={ text => setPassword(text)} placeholder="Senha" secureTextEntry={true}/>
+
+3- cria uma função fetch para mandar para o backend
+			 async function sendForm(){
+					let response =  await fetch('http://192.168.100.27:3000/sessions',{
+					
+						method: 'POST',
+						headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+						email: email,
+						password: password
+						})
+					});
+				}
+4- envia pelo botão
+		  <TouchableOpacity style={css.loginButton} onPress={ () => sendForm()}>
+		  		<Text style={css.loginButtonText}>Entrar</Text>
+          </TouchableOpacity>
 
 
 
