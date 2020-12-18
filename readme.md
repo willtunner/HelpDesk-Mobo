@@ -506,4 +506,74 @@ ficando assim:
 			}
 
 
+#### BOTON TABS ####
+1- instalar o bottontabs e icons
+		npm install @react-navigation/material-bottom-tabs react-native-paper
+		npm install --save react-native-vector-icons
+
+2- Dentro da areaRestrita importa
+		import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
+3- Cria const tab
+		const Tab = createMaterialBottomTabNavigator();
+
+4- Dentro do return da area restrita joga o tab navigator
+		return(
+			<Tab.Navigator>
+				<Tab.Screen name="Profile" component={Profile} />
+				<Tab.Screen name="Cadastro" component={Cadastro} />
+				<Tab.Screen name="Edicao" component={Edicao} />
+			</Tab.Navigator>
+		)
+		
+5- Criar pages na area restrita e chamar no views/index
+		import Home from './Home';
+		import Login from './Login';
+		import Rastreio from './Rastreio';
+		import Profile from './areaRestrita/Profile';
+		import Cadastro from './areaRestrita/Cadastro';
+		import Edicao from './areaRestrita/Edicao';
+
+		export { Home, Login, Rastreio, Profile, Cadastro, Edicao};
+
+6- importar o index dentro do areaRestrita:
+		import { Profile, Cadastro, Edicao } from '../index';
+
+7- já deve aparece quando loga
+
+MUDAR BOTTONTABS PERSONALIZAR
+1- Passa propriedade para o tabnavigator
+		 <Tab.Navigator
+				activeColor = '#999'
+				inactiveColor = '#fff'
+				barStyle = {css.areaTab}
+			>
+2- importa o css
+		import css from '../../../assets/css/css';
+
+3- cria o areaTab dentro do css
+		areaTab: {
+			backgroundColor: '#333',
+			fontSize: 20,
+			fontWeight: 'bold',
+			color: '#333'
+		}
+
+4- Importa o icons que foi instalado
+		import Icon from 'react-native-vector-icons/dist/FontAwesome';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, Button } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function Rastreio(props){
+export default function Cadastro(){
 
-    console.log(props);
     return(
         <View>
-            <Text> Esse é o componente Rastreio</Text>
-            <Button title='Ir para login' onPress={() => props.navigation.navigate('Login')}/>
+             <Text>Cadastro</Text>
         </View>
     )
 }

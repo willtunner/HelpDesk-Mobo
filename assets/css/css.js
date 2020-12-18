@@ -56,8 +56,13 @@ const css = StyleSheet.create({
     },
     logo: {
       marginBottom: 30
+    },
+    areaTab: {
+      backgroundColor: '#333',
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: '#333'
     }
-
   });
 
 export {css};

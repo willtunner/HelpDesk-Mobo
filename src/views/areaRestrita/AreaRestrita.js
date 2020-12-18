@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Profile, Cadastro, Edicao } from '../index';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {css} from '../../../assets/css/css';
 
 export default function AreaRestrita(){
+
+    // ? Para o tab navigator
+    const Tab = createMaterialBottomTabNavigator();
 
     // ? Cria um state para usuario
     const [ user, setUser ] = useState(null);
@@ -25,9 +31,22 @@ export default function AreaRestrita(){
     },[]);
     
     return(
-        <View>
-            <Text> Esse é o componente AreaRestrita </Text>
-            <Text> Seja bem vindo {user} </Text>
-        </View>
+        <Tab.Navigator
+            activeColor = '#999'
+            inactiveColor = '#fff'
+            barStyle={css.areaTab}
+        >
+            <Tab.Screen 
+                name="Profile" 
+                component={Profile} 
+                options={{
+                    tabBarIcon: () => {
+                        <MaterialCommunityIcons name="home" color='#fff' size={26} />
+                    }
+                }}
+                />
+            <Tab.Screen name="Cadastro" component={Cadastro} />
+            <Tab.Screen name="Edicao" component={Edicao} />
+        </Tab.Navigator>
     )
 }
