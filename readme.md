@@ -307,10 +307,203 @@ LOGIN:
 		  		<Text style={css.loginButtonText}>Entrar</Text>
           </TouchableOpacity>
 
+#### AsyncStorage ####
+trabalhar com login ideal usar o AsyncStorage
+1- instalar o asyncstorage no expo:
+			npm i @react-native-community/async-storage
+2- importa o AsyncStorage em Login.js
+			import AsyncStorage from '@react-native-community/async-storage';
+3- usa dessa forma o async
+			// ? Caso de error 
+			if( json === 'error' ){
+				// ? exibe msg em vermelho
+				setDisplay('flex');
+				// ? Depois de 5s some a mensagem
+				setTimeout( () => {
+					setDisplay('none');
+				}, 5000);
+				// ? se errar a senha limpa o storage
+				await AsyncStorage.clear();
+			}else{
+				// ? se der certo seta um item
+				// ? Nome do storage: 'userData',
+				// ? Dados que passa pra ele de string para json 'JSON.stringify(json)'
+				let userData = await AsyncStorage.setItem('userData', JSON.stringify(json));
+				// ? Pega um dado do storage pelo nome dado quando setou
+				let resData  = await AsyncStorage.getItem('userData');
+				// ? tem que converter de string para json
+				console.log(JSON.parse(resData));
+			}
+RECUPERANDO DADOS DO ASYNC AO FECHAR APLICATIVO E ABRIR DE NOVO
+1- EM App.js importar o asyncstorage
+				import AsyncStorage from '@react-native-community/async-storage';
+2- Cria e chama uma função teste para buscar do async toda vez que abre o app
+				async function teste(){
+					let resData  = await AsyncStorage.getItem('userData');
+					// ? tem que converter de string para json
+					console.log(JSON.parse(resData));
+				}
+
+				teste();
+
+#### LOGANDO E INDO PARA AREA RESTRITA ####
+1- Cria pasta:
+				src/views/arearestrita/Rastreio.js
+2- preenche como base:
+			import React, { useState, useEffect } from 'react';
+			import { Text, View, Button } from 'react-native';
+
+			export default function AreaRestrita(){
+				
+				return(
+					<View>
+						<Text> Esse é o componente AreaRestrita </Text>
+					</View>
+				)
+			}
+3- em app.js importa o area restrita
+			import AreaRestrita from './src/views/AreaRestrita';
+4- chama a rota do area restrita
+			<Stack.Screen name="AreaRestrita" component={AreaRestrita} />
+5- em index.js dentro de views src/views/index.js
+			import Home from './Home';
+			import Login from './Login';
+			import Rastreio from './Rastreio';
+			import AreaRestrita from './AreaRestrita';
+
+			export { Home, Login, Rastreio, AreaRestrita };
+6- no método sendForm de Login.js na parte que da certo o login e senha
+			else{
+				// ? se der certo seta um item
+				// ? Nome do storage: 'userData',
+				// ? Dados que passa pra ele de string para json 'JSON.stringify(json)'
+				await AsyncStorage.setItem('userData', JSON.stringify(json));
+				// ? envia para areaRestrita
+				navigation.navigate('AreaRestrita');
+			}
+	já deve enviar para outra tela		
+
+PEGAR DADOS DO ASYNCSTORAGE NA OUTRA TELA
+//! Para testar o que chega no async storage
+    async function teste(){
+        let resData  = await AsyncStorage.getItem('userData');
+        // ? tem que converter de string para json
+        console.log(JSON.parse(resData));
+      }
+      teste();
 
 
+1- importar os states
+		import React, { useState, useEffect } from 'react';
+
+2- criar o state do usuario
+		const [ user, setUser ] = useState(null);
+
+3- Cria um useEffect para quando iniciar a tela ele pegar os dados salvos no asyncstorage
+		  // ? Cria um useEffect para quando iniciar a tela ele pegar os dados salvos no asyncstorage
+			useEffect( ()=> {
+				// todo: Cria função para pegar usuario do asyncstorage 
+				async function getUser(){
+					// ? Pega os dados que vem do asyncstorage com nome de userData 
+					let response = await AsyncStorage.getItem('userData');
+					// ? Converte de para json
+					let json = JSON.parse(response);
+					//console.log(json.user.email)
+					// ? Seta no state o nome do usuario que veio do Objeto response
+					setUser(json.user.name);
+				}
+				//todo: Chama a função
+				getUser();
+				//todo: Array vazio indica que ao iniciar a tela ele chama a função igual componentDidMounth
+			},[]);		
+
+4- Usa o dado retornado dessa forma
+		<Text> Seja bem vindo {user} </Text>
 
 
+#### Biometria ####
+1- instalar a biblioteca:
+			expo install expo-local-authentication
+
+2- importar a biblioteca da biometria na tela login.js
+			import * as LocalAuthentication from 'expo-local-authentication';
+
+3- Cria uma função para verificar se já possui login (teste)
+			
+			//! Verifica se o usúario já possui algum login registrado no async storage
+				async function verifyLogin(){
+					let response = await AsyncStorage.getItem('userData');
+					let json = await JSON.parse(response);
+					console.log(json);
+				}   
+
+4-  useEffect para efetivar assim que entrar na tela
+
+			useEffect( ()=> {
+				verifyLogin();
+			},[]);
+
+5- Função verifica se possui login (valendo)
+
+			     async function verifyLogin(){
+					let response = await AsyncStorage.getItem('userData');
+					let json = JSON.parse(response);
+					
+					if( json !== null ){
+						// ? seta o state do email
+						setEmail(json.user.email);
+						// ? seta o state do password
+						setPassword(json.user.password);
+						// ? seta o state do login
+						setLogin(true);
+					} 
+				}
+
+FUNÇÃO BIOMETRIA
+ Obs: Tem que logar 1x antes normal para ele pedir biometria 
+	   Quando loga primeira vez ele salva os dados no async storage e popula os states de email e password
+	   pra quando usar biometria depois ele puxa dos dados salvos e loga normal
+
+para biometria tem 3 funções 
+		1-
+		//todo: hasHardwareAsync - Verifica se o hardware é compativel com a biometria
+        let compatible = await LocalAuthentication.hasHardwareAsync();
+		2-
+		//todo: isEnrolledAsync - verifica se tem biometrias cadastradas no dispositivo
+        let biometricRecords = await LocalAuthentication.isEnrolledAsync();
+		3-
+		//todo: authenticateAsync - valida se a senha bate com o dedo do usuario
+        let result = await LocalAuthentication.authenticateAsync();
+
+ficando assim:
+		async function biometric(){
+				//todo: hasHardwareAsync - Verifica se é compativel com a biometria
+				let compatible = await LocalAuthentication.hasHardwareAsync();
+
+				if(compatible){
+					//todo: isEnrolledAsync - verifica se tem biometrias cadastradas
+					let biometricRecords = await LocalAuthentication.isEnrolledAsync();
+
+					// ? Se não existir biometrias cadastradas  
+					if( !biometricRecords ){
+						alert(' Biometria não cadastrada ');
+					}else{
+						// ? Se tiver biometria cadastrada
+						//todo: authenticateAsync - valida se a senha bate com o dedo do usuario
+						let result = await LocalAuthentication.authenticateAsync();
+
+						if(result.success){
+							sendForm();
+							//% Gambiarra
+							//navigation.navigate('AreaRestrita');
+							//console.log('deu certo!')
+						}else{
+							setEmail(null);
+							setPassword(null);
+						}
+					}
+				}
+			}
 
 
 
