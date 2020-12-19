@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Profile, Cadastro, Edicao } from '../index';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from '@expo/vector-icons/FontAwesome';
 import {css} from '../../../assets/css/css';
 
 export default function AreaRestrita(){
@@ -32,7 +32,7 @@ export default function AreaRestrita(){
     
     return(
         <Tab.Navigator
-            activeColor = '#999'
+            activeColor = '#fff'
             inactiveColor = '#fff'
             barStyle={css.areaTab}
         >
@@ -40,13 +40,29 @@ export default function AreaRestrita(){
                 name="Profile" 
                 component={Profile} 
                 options={{
-                    tabBarIcon: () => {
-                        <MaterialCommunityIcons name="home" color='#fff' size={26} />
-                    }
+                    tabBarIcon:() => (
+                        <Icon name="users" size={20} color="#999" />
+                    )
                 }}
                 />
-            <Tab.Screen name="Cadastro" component={Cadastro} />
-            <Tab.Screen name="Edicao" component={Edicao} />
+            <Tab.Screen 
+            name="Cadastro" 
+            component={Cadastro} 
+            options={{
+                tabBarIcon: () => (
+                    <Icon name="archive" size={20} color="#999"/>
+                )
+            }}
+            />
+            <Tab.Screen 
+            name="Edicao" 
+            component={Edicao} 
+            options={{
+                tabBarIcon: () => (
+                    <Icon name="edit" size={20} color="#999"/>
+                )
+            }}
+            />
         </Tab.Navigator>
     )
 }
