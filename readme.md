@@ -562,13 +562,46 @@ MUDAR BOTTONTABS PERSONALIZAR
 4- Importa o icons que foi instalado
 		import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
+5- Coloca os icones na BottonTabs dentro do Tab.screen
+		options={{
+                    tabBarIcon:() => (
+                        <Icon name="users" size={20} color="#999" />
+                    )
+                }}
 
+#### #16 Menu e Componentização ####
+1- Importa o css no profile
+		import { css } from '../../../assets/css/css';
+		import Icon from 'react-native-vector-icons/FontAwesome';
 
+2- Chama a navegação para migrar de rotas
+		export default function Profile({navigation}){
 
+3- Cria botão que leva até HOME
+		<TouchableOpacity style={css.buttonHome2} onPress={ () => navigation.navigate('Home')}>
+                <Icon name="home" size={20} color="#999"/>
+        </TouchableOpacity>
 
+4- Cria o botão LOGOUT
+		<TouchableOpacity style={css.buttonLogout} onPress={ () => logout()}>
+               <Icon name="sign-out" size={20} color="#999"/>
+        </TouchableOpacity>
 
+5- Cria função Logout()
+		async function logout(){
+			// ? Limpa os dados do asyncstorage
+			await AsyncStorage.clear();
+			// ? Redireciona para tela de login
+			navigation.navigate('Login');
+		}
 
+CRIA O COMPONENTE PARA  
+1- cria uma pasta assets/component/MenuAreaRestrita.js (base)
+		import React from 'react';
 
+		export default function MenuAreaRestrita (){
+			
+		}
 
 
 

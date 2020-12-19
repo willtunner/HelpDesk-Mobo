@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, Button } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { AntDesign } from '@expo/vector-icons';
+import React from 'react';
+import { View,Text } from 'react-native';
+import { css } from '../../../assets/css/css';
+import MenuAreaRestrita from '../../../assets/components/MenuAreaRestrita';
 
-export default function Profile(){
+export default function Profile({navigation}){
 
     return(
-        <View>
-            <Text>Profile</Text>
-            <AntDesign name="customerservice" size={24} color="black" />
-        </View>
+       <View style={[css.container, css.containerTop]}>
+           <MenuAreaRestrita title="Perfil" navigation={navigation}/>
+           <Text> OI </Text>
+       </View>
     )
 }
