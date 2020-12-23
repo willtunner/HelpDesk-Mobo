@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { BackHandler, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Profile, Cadastro, Edicao } from '../index';
 import Icon from '@expo/vector-icons/FontAwesome';
 import {css} from '../../../assets/css/css';
 
-export default function AreaRestrita(){
+export default function AreaRestrita({navigation}){
 
     // ? Para o tab navigator
     const Tab = createMaterialBottomTabNavigator();
@@ -28,6 +29,32 @@ export default function AreaRestrita(){
         getUser();
 
         //todo: Array vazio indica que ao iniciar a tela ele chama a função igual componentDidMounth
+    },[]);
+
+    //todo: parte do Backhandle, botão voltar sai do app(android)
+    useEffect( () => {
+        const backAction = () => {
+            Alert.alert("Alerta!", "Você quer sair do app?!",[
+                {
+                    text: "Não",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                { text: "Sim", onPress: () => {
+                    navigation.navigate('Home');
+                    BackHandler.exitApp();
+                 }}
+            ]);
+            return true;
+        };
+
+       const backHandler = BackHandler.addEventListener(
+           "hardwareBackPress",
+           backAction
+       );
+
+       return () => backHandler.remove();
+
     },[]);
     
     return(

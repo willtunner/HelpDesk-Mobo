@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Image, View, KeyboardAvoidingView, Text, Platform, Alert} from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { css } from '../../assets/css/css';
+import config from '../config/config.json';
 
 export default function Login({navigation}){
 
@@ -73,7 +74,7 @@ export default function Login({navigation}){
 
     //! Função para enviar o formulário
     async function sendForm(){
-        let response =  await fetch('http://192.168.100.27:3000/sessions',{
+        let response =  await fetch(`${config.urlRoot}sessions`,{
             method: 'POST',
             headers: {
               Accept: 'application/json',

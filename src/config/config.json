@@ -1,0 +1,25 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "29011967log*",
+      "database": "tutoriais",
+      "host": "127.0.0.1",
+      "dialect": "postgres"
+    },
+    "linux": {
+      "username": "postgres",
+      "password": "root",
+      "database": "tutoriais",
+      "host": "127.0.0.1",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "root",
+      "password": null,
+      "database": "database_production",
+      "host": "127.0.0.1",
+      "dialect": "mysql"
+    },
+    "urlRoot":"http://192.168.100.27:3000/",
+    "origin": "Tv: Apinajés, Nº 593, Belém - PA"
+  }

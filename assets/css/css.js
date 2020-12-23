@@ -37,6 +37,7 @@ const css = StyleSheet.create({
       display: text
     }),
     loginForm: {
+      marginTop: 30,
      width: '80%'
     },
     loginInput: {
@@ -50,12 +51,13 @@ const css = StyleSheet.create({
       backgroundColor: '#F58634',
       alignSelf: 'center',
       borderRadius: 5,
-      width: '100%'
+      width: '100%',
     },
     loginButtonText: {
       fontWeight: 'bold',
       fontSize: 22,
-      color: '#333'
+      color: '#333',
+      textAlign: "center"
     },
     logo: {
       marginBottom: 30

@@ -14,7 +14,7 @@ export default function App() {
     // ? tem que converter de string para json
     console.log(JSON.parse(resData));
   }
-  teste();
+  //teste();
 
   return (
    <NavigationContainer>

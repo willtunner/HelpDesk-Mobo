@@ -603,9 +603,180 @@ CRIA O COMPONENTE PARA
 			
 		}
 
+2- Ficando assim no final:
+		import React from 'react';
+		import { css } from '../css/css';
+		import { Text, View, TouchableOpacity } from 'react-native';
+		import Icon from 'react-native-vector-icons/FontAwesome';
+		import AsyncStorage from '@react-native-community/async-storage';
+
+		export default function MenuAreaRestrita (props){
+		
+			async function logout(){
+				// ? Limpa os dados do asyncstorage
+				await AsyncStorage.clear();
+				// ? Redireciona para tela de login
+				props.navigation.navigate('Login');
+			}
+
+			return(
+				
+				<View style={css.areaMenu}>
+					{/*  Botão Home */}
+					<TouchableOpacity style={css.buttonHome2} onPress={ () => props.navigation.navigate('Home')}>
+						<Icon name="home" size={20} color="#999"/>
+					</TouchableOpacity>
+		
+					{/* Titulo */}
+					<Text style={css.areaTittle}>{props.title}</Text>
+		
+				{/* Botão logout     */}
+				<TouchableOpacity style={css.buttonLogout} onPress={ () => logout()}>
+						<Icon name="sign-out" size={20} color="#999"/>
+				</TouchableOpacity>
+				</View>
+			)
+		}
+
+3- Importa no profile
+		import MenuAreaRestrita from '../../../assets/components/MenuAreaRestrita';
+
+4- Chama dessa forma
+		<MenuAreaRestrita title="Perfil" navigation={navigation}/>
 
 
 
+#### #17 Alterando a Senha ####
+1- cria os states para os componentes que vão usar
+		 	const [ id, setId ] = useState(null);
+			const [ senhaAntiga, setSenhaAntiga ] = useState(null);
+			const [ novaSenha, setNovaSenha ] = useState(null);
+			const [ confNovaSenha, setConfNovaSenha ] = useState(null);
+
+2- VERIFICA QUAL ID RETORNA DO ASYNCSTORAGE
+			useEffect( () => {
+				async function getIdUser(){
+					let response = await AsyncStorage.getItem('userData');
+					let json = JSON.parse(response);
+					console.log(json.user.id);
+				}
+				getIdUser();
+			});
+
+3- 
+
+
+
+### EFETUANDO CADASTRO RASTREIO/PRODUTO ###
+Primeira parte do front mobo
+
+Depois das migrations criadas, relacionamentos feitos e tudo certinho
+1- cria os states para serem salvos no banco
+			const [code, setCode] = useState(null);
+			const [user, setUser] = useState(null);
+			const [product, setProduct] = useState(null);
+
+2- cria o origim no config json e importa e depois chama como address
+			import config from '../../config/config.json'; 
+			"origin": "Tv: Apinajés, Nº 593, Belém - PA"
+
+			 const address = config.origin;
+
+3- Pega o id do usuario 
+			//Pega id do usuario
+			async function getUser()
+			{
+				let response=await AsyncStorage.getItem('userData');
+				let json=JSON.parse(response);
+				setUser(json.user.id);
+			}
+
+4- Gera um cod randomico 
+			//Gerar um código randômico
+			async function randomCode()
+			{
+				let result = '';
+				let length=20;
+				let chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+				for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+				setCode(result);
+			}
+
+5- Chama as funções acima assim que entra na page
+			 //Pega o id assim que entra na tela
+			useEffect(()=>{
+				getUser();
+			},[]);
+
+			//Gera o cod assim que abre a tela
+			useEffect(()=>{
+				randomCode();
+			},[]);
+
+6- Envia para o backend as informações como post
+			//Envio do formulário
+			async function sendForm()
+			{
+				let response=await fetch(config.urlRoot+'tracking',{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						user_id: user,
+						code: code,
+						product: product,
+						local: address
+					})
+				});
+			}
+
+obs: tracking: rota criada no backend
+	
+
+### GERAR QRCODE ###
+1- instalar a lib
+			https://www.npmjs.com/package/qrcode
+			npm install --save qrcode
+
+2- no backend importar a lib do QRCode
+			import QRCode from 'qrcode';
+
+3- no backend logo após onde se cadastra o produto 
+			// todo: Gera o QRCode passando o cod do produto
+			QRCode.toDataURL(req.body.code).then((url) => {
+			QRCode.toFile('../../../assets/img/code.png', req.body.code);
+			res.send(JSON.stringify(url));
+			});
+
+4- na função sendForm do frontend pegar o response vindo do banco
+			 // Todo: Recebe do backend a informação
+					let json = await response.json();
+					setResponse(json);
+				}
+
+5- Dentro do return abaixo do areaRestrita
+			{/* Se tiver o response exibe a imagem */}
+            {
+                response && (
+                    <View>
+                        <Image source={{uri: response, height: 180, width: 180}} />
+                        <Button title='Compartilhar' />
+                    </View>    
+                )
+            }
+
+### COMPARTILHAR WHATSAPP/IMPRESSORA/ETC... ### 
+1- instalar libs
+			expo install expo-file-system
+			expo install expo-sharing
+
+2- importar as libs no front 'Cadastro'
+			import * as Sharing from 'expo-sharing';
+			import * as FileSystem from 'expo-file-system';
+
+3- 
 
 
 
