@@ -77,10 +77,10 @@ export default function Cadastro({navigation}){
 
     // Todo: Compartilhar o QRCode
     async function shareQR(){
-            const image=config.urlRoot+'./uploads/qrcode/code.png';
+            const image=config.urlRoot+'qrcode/code.png';
             FileSystem.downloadAsync(
                 image,
-                FileSystem.documentDirectory+'.png'
+                FileSystem.documentDirectory+'code.png'
             ).then(({uri})=>{
                 Sharing.shareAsync(uri);
             });
