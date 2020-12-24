@@ -52,12 +52,12 @@ export default function Cadastro({navigation}){
     //Envio do formulário
     async function sendForm()
     {
-        let response=await fetch(config.urlRoot+'tracking',{
+        let response = await fetch(config.urlRoot+'tracking',{
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
+                // ? 'Authorization': 'Bearer ' + token,
             },
             body: JSON.stringify({
                 user_id: user,
@@ -69,13 +69,15 @@ export default function Cadastro({navigation}){
 
         // Todo: Recebe do backend a informação
         let json = await response.json();
+        // console.log(json);
+        console.log(response);
+
         setResponse(json);
-        console.log(token);
     }
 
     // Todo: Compartilhar o QRCode
     async function shareQR(){
-            const image=config.urlRoot+'img/code.png';
+            const image=config.urlRoot+'./uploads/qrcode/code.png';
             FileSystem.downloadAsync(
                 image,
                 FileSystem.documentDirectory+'.png'
@@ -114,6 +116,7 @@ export default function Cadastro({navigation}){
             <TouchableOpacity style={css.loginButton} onPress={ () => sendForm()}>
                 <Text>Cadastrar</Text>
             </TouchableOpacity>
+            <Text>{product}</Text>
 
             <Text style={{color: 'red'}}>{token}</Text>
         </View>
