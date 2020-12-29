@@ -4,6 +4,8 @@ import MenuAreaRestrita from '../../../assets/components/MenuAreaRestrita';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { css } from '../../../assets/css/css';
 import config from '../../config/config.json';
+import * as Location from 'expo-location';
+import Geocoder from 'react-native-geocoding';
 
 export default function Edicao({navigation}){
 
@@ -18,7 +20,20 @@ export default function Edicao({navigation}){
     const [product, setProduct] = useState(null);
     const [localization, setLocalization] = useState(null);
 
-    //todo: use efect para perguntar se pode usar a camera
+    //todo: use effect para geolocalização
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestPermissionsAsync();
+            if (status !== 'granted') {
+              setErrorMsg('Permission to access location was denied');
+              return;
+            }
+      
+            
+          })();
+    }, [])
+
+    //todo: use effect para perguntar se pode usar a camera
     useEffect(() => {
         (async () => {
           const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -26,19 +41,22 @@ export default function Edicao({navigation}){
         })();
       }, []);
 
-      //todo: Msg que aparece na tela, 'data' vem do banco de dados
-      async function handleBarCodeScanned ({ type, data }) {
+    
+
+    //todo: Msg que aparece na tela, 'data' vem do banco de dados
+    async function handleBarCodeScanned ({ type, data }) {
         setScanned(true);
         //? faz sumir a camera depois que scaneia
         setDisplayQr('none');
         setDisplayForm('flex');
         setCode(data);
         await searchProduct(data);
+        await getLocation();
         //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
       };
 
-      //todo: Função para buscar o produto quando scanear
-      async function searchProduct(codigo){
+    //todo: Função para buscar o produto quando scanear
+    async function searchProduct(codigo){
         let response =  await fetch(`${config.urlRoot}searchProduct`,{
             method: 'POST',
             headers: {
@@ -60,8 +78,25 @@ export default function Edicao({navigation}){
 
       }
 
-      //todo: Função para atualizar o formulario
-      async function sendForm() {
+      //todo: Retorna a posição e endereço do usuário
+      async function getLocation(){
+        let location = await Location.getCurrentPositionAsync({});
+        // ? Pega a chave gerada no google api
+        Geocoder.init(config.geoCodingAPI);
+        
+        Geocoder.from(location.coords.latitude, location.coords.longitude)
+		.then(json => {
+			console.log(json);
+		})
+		.catch(error => console.warn(error));
+
+
+        // ? mostra a localização
+        //console.log(location);
+      }
+
+    //todo: Função para atualizar o formulario
+    async function sendForm() {
 
         }
 

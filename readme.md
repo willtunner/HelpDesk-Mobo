@@ -778,10 +778,84 @@ obs: tracking: rota criada no backend
 
 3- 
 
-### EDITAR QRCODE ###
+### EDITAR QRCODE video 22 ###
 
 1- instalar lib para ler QRCode
 			expo install expo-barcode-scanner
+2- 
+
+
+
+### PEGAR LOCALIZAÇÃO  USUARIO video 24 ###
+1- instalar lib para pegar localização
+			expo install expo-location
+			npm install --save react-native-geocoding
+
+2- na parte de edição imporar
+			import * as Location from 'expo-location';
+
+3- cria um use effect para solicitar permissão para usar gps
+			//todo: use effect para geolocalização
+			useEffect(() => {
+				(async () => {
+					let { status } = await Location.requestPermissionsAsync();
+					if (status !== 'granted') {
+					setErrorMsg('Permission to access location was denied');
+					return;
+					}
+			
+					
+				})();
+			}, [])
+
+4- função para pegar localização da um console.log para (mostrar o que retorna)
+			//todo: Retorna a posição e endereço do usuário
+			async function getLocation(){
+				let location = await Location.getCurrentPositionAsync({});
+				
+				console.log(location);
+			}
+
+5- Chama função de localização quando scaneia o qrcode no handleBarCodeScanned
+			await getLocation();
+
+TRANSFORMA A GEOLOCALIZAÇÃO EM NOME DE RUA/AV
+6- ir no site do google developers e criar uma aplicação
+			https://console.developers.google.com/
+
+7- Depois de criada devemos ativar a api de geolocalização em biblioteca
+			Geolocation API
+
+8- Depois devemos ir ma tela de consentimento OAuth 
+			marcar como externo
+			coloar o nome da aplicação
+			subir o icone do app
+			definir email
+			salvar e continuar
+
+9- Depois ir em credenciais 
+			criar credenciais
+			ajuda-me a me escolher
+			escolha Geolocation API
+			copia a chave API (AIzaSyAK5AiLEn9B2_hTF7STTT9kCzpsQRu30-E)
+10- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
