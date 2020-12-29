@@ -6,6 +6,7 @@ import config from '../../config/config.json';
 import {css} from '../../../assets/css/css';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default function Cadastro({navigation}){
 

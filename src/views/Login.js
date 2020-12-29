@@ -86,6 +86,10 @@ export default function Login({navigation}){
             })
         });
 
+        // const { user, token } = response.data;
+
+      
+
         let json = await response.json();
 
         // ? Caso de error 

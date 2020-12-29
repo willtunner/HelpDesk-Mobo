@@ -89,7 +89,20 @@ const css = StyleSheet.create({
     },
     buttonLogout: {
       textAlign: 'right'
-    }
+    },
+    // por padrão começa flex
+    qrcode:(display = 'flex') => ({
+      width: '100%',
+      height: '100%',
+      backgroundColor: '#000',
+      justifyContent: 'center',
+      display: display
+    }),
+    // por padrão começa none
+    qrForm:(display = 'none') => ({
+      width: '100%',
+      display: display
+    })
   });
 
 export {css};

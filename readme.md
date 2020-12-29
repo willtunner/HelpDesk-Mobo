@@ -778,6 +778,11 @@ obs: tracking: rota criada no backend
 
 3- 
 
+### EDITAR QRCODE ###
+
+1- instalar lib para ler QRCode
+			expo install expo-barcode-scanner
+
 
 
 
