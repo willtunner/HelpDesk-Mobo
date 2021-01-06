@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, Button } from 'react-native';
 import MenuAreaRestrita from '../../../assets/components/MenuAreaRestrita';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { css } from '../../../assets/css/css';
@@ -121,6 +121,20 @@ export default function Edicao({navigation}){
 
         }
 
+    //todo: Nova Leitura do Qrcode
+    async function readAgain(){
+      // ? está lendo novamente
+      setScanned(false);
+      // ? Mostra a camera
+      setDisplayQr('flex');
+      // ? remove o formulário da tela
+      setDisplayForm('none');
+      // ? seta null para o cod scaneado
+      setCode(null);
+      setProduct(null);
+      setLocalization(null);
+    }
+
     return(
         <View>
              <MenuAreaRestrita title="Edição" navigation={navigation}/>
@@ -153,6 +167,18 @@ export default function Edicao({navigation}){
                     <TouchableOpacity style={css.loginButton} onPress={ () => sendForm()}>
                         <Text>Atualizar</Text>
                     </TouchableOpacity>
+
+                    {/*  cod para re-escanear o qrcode */}
+                    {
+                      // Se tiver o scanned
+                      scanned &&
+                      <View>
+                        <Button
+                           title='Escanear Novamente' 
+                           onPress={() => readAgain()}
+                        />
+                      </View>  
+                    }
 
                 </View>
         </View>
