@@ -85,11 +85,32 @@ export default function Edicao({navigation}){
         Geocoder.init(config.geoCodingAPI);
         
         Geocoder.from(location.coords.latitude, location.coords.longitude)
-		.then(json => {
-			console.log(json);
-		})
-		.catch(error => console.warn(error));
+          .then(json => {
 
+            // todo: tras todos os dados
+            //console.log(json);
+
+            // ? Retorna o numero da residencia
+            let number = json.results[0].address_components[0].short_name;
+            // ? Retorna o nome da rua
+            let street = json.results[0].address_components[1].short_name;
+            // ? Retorna o bairro
+            let district = json.results[0].address_components[2].short_name;
+            // ? Retorna a cidade
+            let city = json.results[0].address_components[3].short_name;
+            // ? Retorna o estado
+            let state = json.results[0].address_components[4].short_name;
+            // ? Retorna o pais | quando coloca o .short_name no final ele abrevia
+            let country = json.results[0].address_components[5].short_name;
+            // ? Retorna o cep
+            let cep = json.results[0].address_components[6];
+
+            setLocalization(JSON.stringify(`${number} - ${street} - ${district} - ${city} - ${state} - ${country}`));
+
+            // console.log(country);
+            
+          })
+          .catch(error => console.warn(error));
 
         // ? mostra a localização
         //console.log(location);
