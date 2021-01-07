@@ -16,8 +16,8 @@ export default function Home({navigation}){
 
             {/* Rastreio */}
             <TouchableOpacity 
-            title='Ir para login' 
-            onPress={() => navigation.navigate('Login')}>
+            title='Ir para rastreio' 
+            onPress={() => navigation.navigate('Rastreio')}>
                 <Image source = {require('../../assets/img/rastreio.png')} style={{height: 100, width: 100}} />
             </TouchableOpacity>
         </View>

@@ -19,6 +19,8 @@ export default function Edicao({navigation}){
     const [code, setCode] = useState(null);
     const [product, setProduct] = useState(null);
     const [localization, setLocalization] = useState(null);
+    // ? Resposta de sucesso do backend ao atualizar
+    const [response, setResponse] = useState(null);
 
     //todo: use effect para geolocalização
     useEffect(() => {
@@ -40,8 +42,6 @@ export default function Edicao({navigation}){
           setHasPermission(status === 'granted');
         })();
       }, []);
-
-    
 
     //todo: Msg que aparece na tela, 'data' vem do banco de dados
     async function handleBarCodeScanned ({ type, data }) {
@@ -118,8 +118,22 @@ export default function Edicao({navigation}){
 
     //todo: Função para atualizar o formulario
     async function sendForm() {
-
-        }
+      let response = await fetch(config.urlRoot + 'update',{
+        method: 'PUT',
+        headers :{
+          Accept: 'application/json',
+          'Content-type':'application/json'
+        },
+        body: JSON.stringify({
+          code: code,
+          product: product,
+          local: localization
+        })
+      });
+      // ? Converte para json a resposta 
+      let json = await response.json();
+      setResponse(json);
+    }
 
     //todo: Nova Leitura do Qrcode
     async function readAgain(){
@@ -148,7 +162,8 @@ export default function Edicao({navigation}){
 
                 <View style={css.qrForm(displayForm)}>
 
-                    <Text> Código do produto: { code }</Text>
+                    {/* <Text> Código do produto: { code }</Text> */}
+                    <Text>{response}</Text>
 
                     <View style={css.loginInput}>
                         <TextInput 
