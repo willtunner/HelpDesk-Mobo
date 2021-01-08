@@ -184,8 +184,8 @@ export default function Edicao({navigation}){
                     </TouchableOpacity>
 
                     {/*  cod para re-escanear o qrcode */}
-                    {
-                      // Se tiver o scanned
+                    
+                    {// Se tiver o scanned
                       scanned &&
                       <View>
                         <Button

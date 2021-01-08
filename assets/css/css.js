@@ -7,6 +7,12 @@ const css = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    container3: {
+      flex: 1,
+      backgroundColor: '#C0C4ED',
+      alignItems: 'center',
+      paddingTop: 50,
+    },
     containerTop:{
       justifyContent: 'flex-start'
     },
