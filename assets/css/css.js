@@ -108,7 +108,43 @@ const css = StyleSheet.create({
     qrForm:(display = 'none') => ({
       width: '100%',
       display: display
-    })
+    }),
+    inputRastreio: {
+      backgroundColor: '#5A4D8C', 
+      height: 40,
+      width: '80%', 
+      padding: 15, 
+      paddingLeft: 20,
+      color: '#FFF',
+      borderRadius: 20
+    },
+    logoRastreio: {
+      height:150, 
+      width:150,
+      marginBottom: 50
+    },
+    btnRastreio: {
+      backgroundColor: '#17AF66',
+      height: 30,
+      width: '40%',
+      marginTop: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 10
+    },
+    txtBtnRastreio: {
+      color: '#FFF',
+      fontWeight: '500',
+      fontSize: 18,
+      //todo: Sombra desfolcada
+      // textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      // textShadowOffset: {width: -1, height: 1},
+      // textShadowRadius: 3
+      //todo: Sombra efeito de lado
+      textShadowOffset: { width: 2, height: 2 },
+      textShadowRadius: 1,
+      textShadowColor: '#000',
+    }
   });
 
 export {css};
