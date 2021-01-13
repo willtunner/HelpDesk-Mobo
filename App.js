@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 // % Push Notifications
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-//import { Notifications } from 'expo';
 import * as Notifications from 'expo-notifications';
 import config from './src/config/config.json';
 
